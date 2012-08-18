@@ -2,8 +2,7 @@
 //  CalculatorBrain.m
 //  Calculator
 //
-//  Created by Piotr Planeta on 22.07.2012.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Created by Piotr Płaneta on 22.07.2012.
 //
 
 #import "CalculatorBrain.h"
