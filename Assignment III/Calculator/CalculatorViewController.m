@@ -120,12 +120,12 @@
         [self operationPressed:sender];
     }
 }
+
 - (IBAction)variablePressed:(UIButton *)sender
 {
     [self.brain pushVariable:[sender currentTitle]];
     [self refreshUserInterface];
 }
-
 
 - (void)refreshUserInterface
 {
@@ -139,7 +139,6 @@
 - (void)viewDidUnload
 {
     [self setBrain:nil];
-    
     [self setDisplay:nil];
     [self setUserInput:nil];
     

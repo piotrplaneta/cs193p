@@ -35,18 +35,11 @@
 {
     _program = program;
     [self setProgramDescription];
-    
 }
 
 - (float)resultOfProgramForXValue:(float)x forGraphView:(GraphView *)sender
 {
-    
     return [CalculatorBrain runProgram:self.program usingVariableValues:[[NSDictionary alloc] initWithObjectsAndKeys:[[NSNumber alloc] initWithFloat:x], @"x", nil]];
-}
-
-- (NSString *)descriptionOfProgram:(id)program forGraphView:(GraphView *)sender
-{
-    return [CalculatorBrain descriptionOfProgram:program];
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -73,14 +66,14 @@
     self.programDescription.text = [CalculatorBrain descriptionOfProgram:self.program];
 }
 
-
-
 - (void)viewDidUnload {
     [self setProgramDescription:nil];
     [self setProgram:nil];
-    [super viewDidUnload];
+    
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs synchronize];
+
+    [super viewDidUnload];
 }
 
 

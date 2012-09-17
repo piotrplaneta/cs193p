@@ -13,7 +13,6 @@
 @protocol GraphViewDataSource
 
 - (float)resultOfProgramForXValue:(float)x forGraphView:(GraphView *)sender;
-- (NSString *)descriptionOfProgram:(id)program forGraphView:(GraphView *)sender;
 
 @end
 

@@ -56,7 +56,6 @@
         currentOrigin.x += translation.x;
         currentOrigin.y += translation.y;
         self.origin = currentOrigin;
-        
     }
 }
 
@@ -65,7 +64,6 @@
     if (gesture.state == UIGestureRecognizerStateEnded) {
         self.origin = [gesture locationInView:self];
     }
-    
 }
 
 
@@ -108,10 +106,8 @@
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
 
     [AxesDrawer drawAxesInRect:rect originAtPoint:self.origin scale:self.scale];
-    
     
     CGContextBeginPath(context);
     
@@ -131,7 +127,6 @@
     }
     
     CGContextStrokePath(context);
-    
 }
 
 
