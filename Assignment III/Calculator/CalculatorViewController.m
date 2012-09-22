@@ -22,6 +22,19 @@
 @synthesize userIsInTheMiddleOfEnteringNumber = _userIsInTheMiddleOfEnteringNumber;
 @synthesize brain = _brain;
 
+//iPad section
+
+- (CalculatorGraphViewController *)splitViewCalculatorGraphViewController
+{
+    id cgvc = [self.splitViewController.viewControllers lastObject];
+    if (![cgvc isKindOfClass:[CalculatorGraphViewController class]]) {
+        cgvc = nil;
+    }
+    return cgvc;
+}
+
+//End of iPad section
+
 - (CalculatorBrain *)brain
 {
     if (!_brain) _brain = [[CalculatorBrain alloc] init];
@@ -127,6 +140,13 @@
     [self refreshUserInterface];
 }
 
+- (IBAction)graphButtonPressed
+{
+    if ([self splitViewCalculatorGraphViewController]) {
+        [self splitViewCalculatorGraphViewController].program = self.brain.program;
+    }
+}
+
 - (void)refreshUserInterface
 {
     double result = [CalculatorBrain runProgram:self.brain.program];
@@ -136,11 +156,18 @@
     self.userIsInTheMiddleOfEnteringNumber = NO;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    if (self.splitViewController) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (void)viewDidUnload
 {
     [self setBrain:nil];
-    [self setDisplay:nil];
-    [self setUserInput:nil];
     
     [super viewDidUnload];
 }

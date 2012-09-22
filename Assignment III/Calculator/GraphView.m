@@ -83,13 +83,12 @@
 
 - (void) setup
 {
-    self.contentScaleFactor = 1.0;
     self.contentMode = UIViewContentModeRedraw;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     if ([prefs objectForKey:@"GraphViewScale"] != nil) {
         self.scale = [prefs floatForKey:@"GraphViewScale"];
     } else {
-        self.scale = 10.0;
+        self.scale = 1.0;
     }
     
     CGPoint origin;
@@ -109,6 +108,8 @@
 
     [AxesDrawer drawAxesInRect:rect originAtPoint:self.origin scale:self.scale];
     
+    [[UIColor blueColor] setStroke];
+    
     CGContextBeginPath(context);
     
     CGPoint beginPoint;
@@ -117,8 +118,8 @@
     beginPoint.y = self.origin.y - beginPoint.y * self.scale;
     CGContextMoveToPoint(context, 0, beginPoint.y);
     
-    int i;
-    for(i = 1; i <= self.bounds.size.width; i++) {
+    float i;
+    for(i = 1/self.contentScaleFactor; i <= self.bounds.size.width; i += 1/self.contentScaleFactor) {
         CGPoint currentPoint;
         currentPoint.x = (i - self.origin.x) / self.scale;
         currentPoint.y = [self.dataSource resultOfProgramForXValue:currentPoint.x forGraphView:self];

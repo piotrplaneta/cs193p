@@ -16,6 +16,60 @@
 
 @implementation CalculatorGraphViewController
 
+//SplitViewBarButtonItemPresenter section
+
+@synthesize toolbar = _toolbar;
+@synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
+
+- (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
+{
+    if (splitViewBarButtonItem != _splitViewBarButtonItem) {
+        NSMutableArray *items = [self.toolbar.items mutableCopy];
+        if (_splitViewBarButtonItem) [items removeObject:_splitViewBarButtonItem];
+        if (splitViewBarButtonItem) [items insertObject:splitViewBarButtonItem atIndex:0];
+        self.toolbar.items = items;
+        _splitViewBarButtonItem = splitViewBarButtonItem;
+    }
+}
+
+- (id <SplitViewBarButtonItemPresenter>)splitViewBarButtonItemPresenter
+{
+    id detailVC = [self.splitViewController.viewControllers lastObject];
+    if (![detailVC conformsToProtocol:@protocol(SplitViewBarButtonItemPresenter)]) {
+        detailVC = nil;
+    }
+    return detailVC;
+}
+
+//End of SplitViewBarButtonItemPresenter section
+
+//UISplitViewControllerDelegate section
+
+- (BOOL) splitViewController:(UISplitViewController *)svc
+    shouldHideViewController:(UIViewController *)vc
+               inOrientation:(UIInterfaceOrientation)orientation
+{
+    return [self splitViewBarButtonItemPresenter] ? UIInterfaceOrientationIsPortrait(orientation) : NO;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc
+     willHideViewController:(UIViewController *)aViewController
+          withBarButtonItem:(UIBarButtonItem *)barButtonItem
+       forPopoverController:(UIPopoverController *)pc
+{
+    barButtonItem.title = @"Calculator";
+    [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = barButtonItem;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc
+     willShowViewController:(UIViewController *)aViewController
+  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    [self splitViewBarButtonItemPresenter].splitViewBarButtonItem = nil;
+}
+
+//End of UISplitViewControllerDelegate section
+
 @synthesize programDescription = _programDescription;
 @synthesize program = _program;
 @synthesize graphView = _graphView;
@@ -34,6 +88,7 @@
 - (void)setProgram:(id)program
 {
     _program = program;
+    [self.graphView setNeedsDisplay];
     [self setProgramDescription];
 }
 
@@ -53,6 +108,7 @@
 
 - (void) awakeFromNib
 {
+    self.splitViewController.delegate = self;
     [self setProgramDescription];
 }
 
@@ -67,12 +123,12 @@
 }
 
 - (void)viewDidUnload {
-    [self setProgramDescription:nil];
     [self setProgram:nil];
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs synchronize];
 
+    [self setToolbar:nil];
     [super viewDidUnload];
 }
 
