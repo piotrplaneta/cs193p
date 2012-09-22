@@ -112,11 +112,11 @@
     
     CGContextBeginPath(context);
     
-    CGPoint beginPoint;
-    beginPoint.x = (0 - self.origin.x) / self.scale;
-    beginPoint.y = [self.dataSource resultOfProgramForXValue:beginPoint.x forGraphView:self];
-    beginPoint.y = self.origin.y - beginPoint.y * self.scale;
-    CGContextMoveToPoint(context, 0, beginPoint.y);
+    CGPoint currentPoint;
+    currentPoint.x = (0 - self.origin.x) / self.scale;
+    currentPoint.y = [self.dataSource resultOfProgramForXValue:currentPoint.x forGraphView:self];
+    currentPoint.y = self.origin.y - currentPoint.y * self.scale;
+    CGContextMoveToPoint(context, 0, currentPoint.y);
     
     float i;
     for(i = 1/self.contentScaleFactor; i <= self.bounds.size.width; i += 1/self.contentScaleFactor) {

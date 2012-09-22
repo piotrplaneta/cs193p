@@ -34,11 +34,7 @@
 
 - (id <SplitViewBarButtonItemPresenter>)splitViewBarButtonItemPresenter
 {
-    id detailVC = [self.splitViewController.viewControllers lastObject];
-    if (![detailVC conformsToProtocol:@protocol(SplitViewBarButtonItemPresenter)]) {
-        detailVC = nil;
-    }
-    return detailVC;
+    return self;
 }
 
 //End of SplitViewBarButtonItemPresenter section
