@@ -24,6 +24,15 @@
 
 //iPad section
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    if (self.splitViewController) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (CalculatorGraphViewController *)splitViewCalculatorGraphViewController
 {
     id cgvc = [self.splitViewController.viewControllers lastObject];
@@ -31,6 +40,13 @@
         cgvc = nil;
     }
     return cgvc;
+}
+
+- (IBAction)graphButtonPressed
+{
+    if ([self splitViewCalculatorGraphViewController]) {
+        [self splitViewCalculatorGraphViewController].program = self.brain.program;
+    }
 }
 
 //End of iPad section
@@ -140,13 +156,6 @@
     [self refreshUserInterface];
 }
 
-- (IBAction)graphButtonPressed
-{
-    if ([self splitViewCalculatorGraphViewController]) {
-        [self splitViewCalculatorGraphViewController].program = self.brain.program;
-    }
-}
-
 - (void)refreshUserInterface
 {
     double result = [CalculatorBrain runProgram:self.brain.program];
@@ -154,15 +163,6 @@
     self.display.text = resultString;
     self.userInput.text = [CalculatorBrain descriptionOfProgram:self.brain.program];
     self.userIsInTheMiddleOfEnteringNumber = NO;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-    if (self.splitViewController) {
-        return YES;
-    } else {
-        return NO;
-    }
 }
 
 - (void)viewDidUnload

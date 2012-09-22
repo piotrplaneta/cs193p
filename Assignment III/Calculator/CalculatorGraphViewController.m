@@ -34,18 +34,14 @@
 
 - (id <SplitViewBarButtonItemPresenter>)splitViewBarButtonItemPresenter
 {
-    id detailVC = [self.splitViewController.viewControllers lastObject];
-    if (![detailVC conformsToProtocol:@protocol(SplitViewBarButtonItemPresenter)]) {
-        detailVC = nil;
-    }
-    return detailVC;
+    return self;
 }
 
 //End of SplitViewBarButtonItemPresenter section
 
 //UISplitViewControllerDelegate section
 
-- (BOOL) splitViewController:(UISplitViewController *)svc
+- (BOOL)splitViewController:(UISplitViewController *)svc
     shouldHideViewController:(UIViewController *)vc
                inOrientation:(UIInterfaceOrientation)orientation
 {
@@ -97,7 +93,7 @@
     return [CalculatorBrain runProgram:self.program usingVariableValues:[[NSDictionary alloc] initWithObjectsAndKeys:[[NSNumber alloc] initWithFloat:x], @"x", nil]];
 }
 
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     CGRect labelFrame = self.programDescription.frame;
     labelFrame.origin.x = self.graphView.frame.size.width - 300;
@@ -106,18 +102,19 @@
     return YES;
 }
 
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
     self.splitViewController.delegate = self;
     [self setProgramDescription];
 }
 
-- (void) viewDidLoad
+- (void)viewDidLoad
 {
+    self.splitViewController.delegate = self;
     [self setProgramDescription];
 }
 
-- (void) setProgramDescription
+- (void)setProgramDescription
 {
     self.programDescription.text = [CalculatorBrain descriptionOfProgram:self.program];
 }
@@ -128,7 +125,6 @@
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs synchronize];
 
-    [self setToolbar:nil];
     [super viewDidUnload];
 }
 
