@@ -22,8 +22,9 @@
 @synthesize userIsInTheMiddleOfEnteringNumber = _userIsInTheMiddleOfEnteringNumber;
 @synthesize brain = _brain;
 
-//iPad section
+//AutoRotation section
 
+//iOS5
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     if (self.splitViewController) {
@@ -32,6 +33,17 @@
         return NO;
     }
 }
+
+//iOS6
+
+- (BOOL) shouldAutorotate {
+    return NO;
+}
+
+
+//End of AutoRotation section
+
+//iPad section
 
 - (CalculatorGraphViewController *)splitViewCalculatorGraphViewController
 {
@@ -62,6 +74,7 @@
     if ([segue.identifier isEqualToString:@"ShowGraph"]) {
         [segue.destinationViewController setProgram:self.brain.program];
     }
+    
 }
 
 
