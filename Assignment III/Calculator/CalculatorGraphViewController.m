@@ -93,18 +93,28 @@
     return [CalculatorBrain runProgram:self.program usingVariableValues:[[NSDictionary alloc] initWithObjectsAndKeys:[[NSNumber alloc] initWithFloat:x], @"x", nil]];
 }
 
+//AutoRotation section
+
+//iOS5
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    CGRect labelFrame = self.programDescription.frame;
-    labelFrame.origin.x = self.graphView.frame.size.width - 300;
-    labelFrame.origin.y = self.graphView.frame.size.height - 41;
-    self.programDescription.frame = labelFrame;
     return YES;
 }
+
+//iOS6
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+//End of AutoRotation section
 
 - (void)awakeFromNib
 {
     self.splitViewController.delegate = self;
+    self.program = [NSArray arrayWithObject:[NSNumber numberWithInt:0]];
     [self setProgramDescription];
 }
 
@@ -118,6 +128,8 @@
 {
     self.programDescription.text = [CalculatorBrain descriptionOfProgram:self.program];
 }
+
+//Deprecated in iOS6/use didReceiveMemoryWarning
 
 - (void)viewDidUnload {
     [self setProgram:nil];

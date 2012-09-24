@@ -178,6 +178,8 @@
     self.userIsInTheMiddleOfEnteringNumber = NO;
 }
 
+//Deprecated in iOS6/use didReceiveMemoryWarning
+
 - (void)viewDidUnload
 {
     [self setBrain:nil];
